@@ -669,7 +669,11 @@ function Win11UIModule.Key(config)
 	task.delay(0.5, function()
 		if keyInput and keyInput.Parent then keyInput:CaptureFocus() end
 	end)
-
+	sg.AncestryChanged:Connect(function()
+		if not sg.Parent then
+			pcall(function() neon:UnbindFrame(window) end)
+		end
+	end)
 	return sg
 end
 
