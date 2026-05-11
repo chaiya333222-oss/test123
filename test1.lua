@@ -14,12 +14,7 @@ local UIS              = UserInputService
 local LogService       = game:GetService("LogService")
 local Debris           = game:GetService("Debris")
 
-local neon
-if game:GetService("RunService"):IsStudio() then
-	neon = require(game.ReplicatedStorage.neon) 
-else
-	neon = loadstring(game:HttpGet("https://raw.githubusercontent.com/benten1100/test/refs/heads/main/test123%20(2).lua", true))()
-end
+
 -- ─── Mobile Detection ────────────────────────
 local isMobile = false
 
@@ -791,11 +786,7 @@ function Win11UIModule.Key(config)
 	local offScreenBottom = getOffScreenBottom()
 	window.BackgroundTransparency = 1
 	window.Position = UDim2.new(0.5, WIN.dx, 0.5, offScreenBottom)
-	
-	neon:BindFrame(window, {
-		Transparency = 0.98,
-		BrickColor = BrickColor.new("Institutional white")
-	})
+
 	tw(window, 0.25, { BackgroundTransparency = .3 })
 	TweenService:Create(window, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
 		Position = UDim2.new(0.5, WIN.dx, 0.5, WIN.dy)
