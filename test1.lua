@@ -14,7 +14,12 @@ local UIS              = UserInputService
 local LogService       = game:GetService("LogService")
 local Debris           = game:GetService("Debris")
 
-
+local neon
+if game:GetService("RunService"):IsStudio() then
+	neon = require(game.ReplicatedStorage.neon) 
+else
+	neon = loadstring(game:HttpGet("https://raw.githubusercontent.com/chaiya333222-oss/test123/refs/heads/main/test3.lua", true))()
+end
 -- ─── Mobile Detection ────────────────────────
 local isMobile = false
 
@@ -164,141 +169,6 @@ local D = {
 }
 
 
-
-function Win11UIModule.Notify(options)
-	local type     = options.type     or "info"
-	local title    = options.title    or "แจ้งเตือน"
-	local message  = options.message  or ""
-	local duration = options.duration or 3
-
-	local colors = {
-		success = Color3.fromRGB(74, 222, 128),
-		error   = Color3.fromRGB(248, 113, 113),
-		info    = Color3.fromRGB(96, 165, 250),
-		warn    = Color3.fromRGB(251, 191, 36),
-	}
-	local accent = colors[type] or colors.info
-
-	local gui = Instance.new("ScreenGui")
-	gui.Name = "Win11Notify_" .. tostring(tick())
-	gui.ResetOnSpawn = false
-	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-	local frame = Instance.new("Frame")
-	frame.Size = UDim2.new(0, 280, 0, 68)
-	frame.Position = UDim2.new(1, 10, 1, -90)
-	frame.AnchorPoint = Vector2.new(1, 1)
-	frame.BackgroundColor3 = Color3.fromRGB(24, 24, 38)
-	frame.BackgroundTransparency = 0.35 
-	frame.BorderSizePixel = 0
-	frame.Parent = gui
-
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, 10)
-	corner.Parent = frame
-
-	local bar = Instance.new("Frame")
-	bar.Size = UDim2.new(0, 35, 1, 0)
-	bar.Position = UDim2.new(0, 0, 0, 0)
-	bar.BackgroundColor3 = accent
-	bar.BorderSizePixel = 0
-	bar.Parent = frame
-
-	local UIGradient = Instance.new("UIGradient")
-	UIGradient.Parent = bar
-	UIGradient.Transparency = NumberSequence.new{
-		NumberSequenceKeypoint.new(0, 0),
-		NumberSequenceKeypoint.new(0.0829, 0),
-		NumberSequenceKeypoint.new(0.0894, 1),
-		NumberSequenceKeypoint.new(1, 1)
-	}
-	local barCorner = Instance.new("UICorner")
-	barCorner.CornerRadius = UDim.new(0, 10)
-	barCorner.Parent = bar
-
-	local progress = Instance.new("Frame")
-	progress.Size = UDim2.new(1, -3, 0, 2)
-	progress.Position = UDim2.new(1, 0, 1, -2)
-	progress.AnchorPoint = Vector2.new(1, 1)
-	progress.BackgroundColor3 = accent
-	progress.BorderSizePixel = 0
-	progress.Parent = frame
-
-	local UIGradient2 = Instance.new("UIGradient")
-	UIGradient2.Parent = progress
-	UIGradient2.Rotation = 180
-	UIGradient2.Transparency = NumberSequence.new{
-		NumberSequenceKeypoint.new(0, 0),
-		NumberSequenceKeypoint.new(0.722, 0),
-		NumberSequenceKeypoint.new(1, 1)
-	}
-	local progCorner = Instance.new("UICorner")
-	progCorner.CornerRadius = UDim.new(0, 6)
-	progCorner.Parent = progress
-
-	local titleLabel = Instance.new("TextLabel")
-	titleLabel.Size = UDim2.new(1, -50, 0, 20)
-	titleLabel.Position = UDim2.new(0, 16, 0, 10)
-	titleLabel.BackgroundTransparency = 1
-	titleLabel.Text = title
-	titleLabel.TextColor3 = Color3.fromRGB(240, 240, 255)
-	titleLabel.Font = Enum.Font.GothamBold
-	titleLabel.TextSize = 13
-	titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-	titleLabel.Parent = frame
-
-	local msgLabel = Instance.new("TextLabel")
-	msgLabel.Size = UDim2.new(1, -20, 0, 28)
-	msgLabel.Position = UDim2.new(0, 16, 0, 30)
-	msgLabel.BackgroundTransparency = 1
-	msgLabel.Text = message
-	msgLabel.TextColor3 = Color3.fromRGB(160, 160, 185)
-	msgLabel.Font = Enum.Font.Gotham
-	msgLabel.TextSize = 12
-	msgLabel.TextXAlignment = Enum.TextXAlignment.Left
-	msgLabel.TextWrapped = true
-	msgLabel.Parent = frame
-
-	local closeBtn = Instance.new("TextButton")
-	closeBtn.Size = UDim2.new(0, 24, 0, 24)
-	closeBtn.Position = UDim2.new(1, -30, 0, 8)
-	closeBtn.BackgroundTransparency = 1
-	closeBtn.Text = ">"
-	closeBtn.TextColor3 = Color3.fromRGB(120, 120, 140)
-	closeBtn.Font = Enum.Font.Gotham
-	closeBtn.TextSize = 12
-	closeBtn.Parent = frame
-
-	local function slideIn()
-		frame:TweenPosition(
-			UDim2.new(1, -10, 1, -90),
-			Enum.EasingDirection.Out,
-			Enum.EasingStyle.Quart, 0.35, true
-		)
-	end
-	local function slideOut()
-		frame:TweenPosition(
-			UDim2.new(1, 300, 1, -90),
-			Enum.EasingDirection.In,
-			Enum.EasingStyle.Quart, 0.3, true,
-			function() gui:Destroy() end
-		)
-	end
-	local function startProgress()
-		local tween = game:GetService("TweenService"):Create(
-			progress,
-			TweenInfo.new(duration, Enum.EasingStyle.Linear),
-			{ Size = UDim2.new(0, 0, 0, 2) }
-		)
-		tween:Play()
-	end
-
-	closeBtn.MouseButton1Click:Connect(slideOut)
-	slideIn()
-	startProgress()
-	task.delay(duration, slideOut)
-end
 
 
 
@@ -786,7 +656,11 @@ function Win11UIModule.Key(config)
 	local offScreenBottom = getOffScreenBottom()
 	window.BackgroundTransparency = 1
 	window.Position = UDim2.new(0.5, WIN.dx, 0.5, offScreenBottom)
-
+	
+	neon:BindFrame(window, {
+		Transparency = 0.98,
+		BrickColor = BrickColor.new("Institutional white")
+	})
 	tw(window, 0.25, { BackgroundTransparency = .3 })
 	TweenService:Create(window, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
 		Position = UDim2.new(0.5, WIN.dx, 0.5, WIN.dy)
@@ -798,6 +672,7 @@ function Win11UIModule.Key(config)
 
 	return sg
 end
+
 
 
 return Win11UIModule
