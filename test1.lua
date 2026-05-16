@@ -1,7 +1,3 @@
--- Win11UIModule (ModuleScript) – Full Mobile + PC Support
--- Supports: Space, Logs, BoolValue, Slider, TextBox, TextBoxAndButton,
---           Button, ColorUI, ColorPicker, InstancePicker, SaveLoad, Keybind
--- ✦ เพิ่ม: Window slide-up open animation + Tab slide-from-left animation
 
 local Win11UIModule = {}
 Win11UIModule.__index = Win11UIModule
@@ -455,13 +451,10 @@ function Win11UIModule.Key(config)
 	okBtn.MouseEnter:Connect(function() tw(okBtnFrame, 0.12, { BackgroundColor3 = rgb(55, 90, 65) }) end)
 	okBtn.MouseLeave:Connect(function() tw(okBtnFrame, 0.12, { BackgroundColor3 = rgb(50, 75, 55) }) end)
 
-	-- ══════════════════════════════════════════
-	-- Dropdown (ปรับซ้าย + กรอบพอดิ้งเนื้อหา)
-	-- ══════════════════════════════════════════
 	local dropdownOpen = false
 	local dropdown = nil
 	local dropdownConn = nil
-	local currentDropdownH = 100 -- ตัวแปรเก็บความสูงจริง
+	local currentDropdownH = 100
 
 	local copyCategories = config.copyLinks or {}
 	local linkMap = config.linkMap or {}
